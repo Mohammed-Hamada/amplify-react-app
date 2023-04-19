@@ -22,7 +22,18 @@
         }
       },
       "auth": {
-        "amplifyreactappe6df84b1": {}
+        "amplifyreactappb88c9e30": {},
+        "amplifyreactappa8e0e0f8": {}
+      },
+      "function": {
+        "amplifyreactappb88c9e30DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-amplifyreactapp-dev-120631-deployment",
+          "s3Key": "amplify-builds/amplifyreactappb88c9e30DefineAuthChallenge-3445595a325a596b6a37-build.zip"
+        },
+        "amplifyreactappb88c9e30CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-amplifyreactapp-dev-120631-deployment",
+          "s3Key": "amplify-builds/amplifyreactappb88c9e30CreateAuthChallenge-52535530517367486f4d-build.zip"
+        }
       }
     }
   }

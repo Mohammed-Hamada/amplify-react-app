@@ -1,106 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
-import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import awsConfig from './aws-exports';
 
-import { createTodo } from './graphql/mutations';
-import { listTodos } from './graphql/queries';
+Amplify.configure(awsConfig);
 
-const initialState = { name: '', description: '' };
-
-function App({ signOut, user }) {
-  const [formState, setFormState] = useState(initialState);
-  const [todos, setTodos] = useState([]);
+function App() {
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetchTodos();
-  }, [user.attributes.sub, user.username]);
+    Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser().then(userData => setUser(userData));
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
+    });
 
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value });
-  }
+    getUser().then(userData => setUser(userData));
+  }, []);
 
-  async function fetchTodos() {
-    try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
-      const todos = todoData.data.listTodos.items;
-
-      setTodos(todos);
-    } catch (err) {
-      console.log('error fetching todos');
-    }
-  }
-
-  async function addTodo() {
-    try {
-      if (!formState.name || !formState.description) return;
-      const todo = { ...formState };
-      setTodos([...todos, todo]);
-      setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, { input: todo }));
-    } catch (err) {
-      console.log('error creating todo:', err);
-    }
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then(userData => userData)
+      .catch(() => console.log('Not signed in'));
   }
 
   return (
-    <div style={styles.container}>
-      <Heading level={1}>Hello {user.username}</Heading>
-      <Button onClick={signOut} style={styles.button}>
-        Sign out
-      </Button>
-      <h2>Amplify Todos</h2>
-      <input
-        onChange={(event) => setInput('name', event.target.value)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <input
-        onChange={(event) => setInput('description', event.target.value)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <button style={styles.button} onClick={addTodo}>
-        Create Todo
-      </button>
-      {todos.map((todo, index) => (
-        <div key={todo.id ? todo.id : index} style={styles.todo}>
-          <p style={styles.todoName}>{todo.name}</p>
-          <p style={styles.todoDescription}>{todo.description}</p>
-        </div>
-      ))}
+    <div>
+      <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
+      {user ? (
+        <button onClick={() => Auth.signOut()}>Sign Out</button>
+      ) : (
+        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
+      )}
     </div>
   );
 }
 
-const styles = {
-  container: {
-    width: 800,
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  todo: { marginBottom: 15 },
-  input: {
-    border: 'none',
-    backgroundColor: '#ddd',
-    marginBottom: 10,
-    padding: 8,
-    fontSize: 18,
-  },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  button: {
-    backgroundColor: 'black',
-    color: 'white',
-    outline: 'none',
-    fontSize: 18,
-    padding: '12px 0px',
-  },
-};
 
-export default withAuthenticator(App);
+export default App;

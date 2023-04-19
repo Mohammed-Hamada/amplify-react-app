@@ -19,7 +19,7 @@
     }
   },
   "auth": {
-    "amplifyreactappe6df84b1": {
+    "amplifyreactappa8e0e0f8": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -34,14 +34,30 @@
         "signupAttributes": [
           "EMAIL"
         ],
-        "socialProviders": [],
-        "usernameAttributes": [],
+        "socialProviders": [
+          "GOOGLE"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "verificationMechanisms": [
           "EMAIL"
         ]
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "amplifyreactappb88c9e30CreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "amplifyreactappb88c9e30DefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "hosting": {
@@ -52,6 +68,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_amplifyreactappb88c9e30CreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappb88c9e30CreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_amplifyreactappb88c9e30CreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappb88c9e30CreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_amplifyreactappb88c9e30DefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappb88c9e30DefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_amplifyreactappb88c9e30DefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreactappb88c9e30DefineAuthChallenge"
+        }
+      ]
+    },
     "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {
