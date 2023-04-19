@@ -14,6 +14,12 @@
     "categories": {
       "api": {
         "amplifyreactapp": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3gpiuod6gf6xo",
+          "type": "cicd"
+        }
       }
     }
   }
