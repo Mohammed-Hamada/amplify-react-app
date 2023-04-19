@@ -20,6 +20,12 @@
           "appId": "d3gpiuod6gf6xo",
           "type": "cicd"
         }
+      },
+      "auth": {
+        "amplifyreactappe6df84b1": {}
+      },
+      "analytics": {
+        "amplifyreactapp": {}
       }
     }
   }
