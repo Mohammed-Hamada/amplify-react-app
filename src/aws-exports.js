@@ -27,15 +27,7 @@ const awsmobile = {
     },
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
-    ],
-    "aws_mobile_analytics_app_id": "a5637c7fb6034435afb16d6bda0a1bae",
-    "aws_mobile_analytics_app_region": "us-east-1",
-    "Analytics": {
-        "AWSPinpoint": {
-            "appId": "a5637c7fb6034435afb16d6bda0a1bae",
-            "region": "us-east-1"
-        }
-    }
+    ]
 };
 
 

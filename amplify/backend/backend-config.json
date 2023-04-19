@@ -1,10 +1,5 @@
 {
-  "analytics": {
-    "amplifyreactapp": {
-      "providerPlugin": "awscloudformation",
-      "service": "Pinpoint"
-    }
-  },
+  "analytics": {},
   "api": {
     "amplifyreactapp": {
       "dependsOn": [],

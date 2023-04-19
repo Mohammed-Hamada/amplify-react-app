@@ -1,10 +1,10 @@
-/* src/App.js */
 import React, { useEffect, useState } from 'react';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import { createTodo } from './graphql/mutations';
-import { getTodo, listTodos } from './graphql/queries';
+import { API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 
 const initialState = { name: '', description: '' };
 
@@ -14,7 +14,7 @@ function App({ signOut, user }) {
 
   useEffect(() => {
     fetchTodos();
-  }, []);
+  }, [user.attributes.sub, user.username]);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -24,7 +24,7 @@ function App({ signOut, user }) {
     try {
       const todoData = await API.graphql(graphqlOperation(listTodos));
       const todos = todoData.data.listTodos.items;
-      console.log(todoData.data.listTodos)
+
       setTodos(todos);
     } catch (err) {
       console.log('error fetching todos');
