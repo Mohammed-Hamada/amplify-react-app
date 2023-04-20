@@ -6,13 +6,14 @@ Amplify.configure(awsConfig);
 
 function App() {
   const [user, setUser] = useState(null);
-
+  console.log(user);
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
+      // eslint-disable-next-line default-case
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then(userData => setUser(userData));
+          fetchUser();
           break;
         case 'signOut':
           setUser(null);
@@ -24,13 +25,21 @@ function App() {
       }
     });
 
-    getUser().then(userData => setUser(userData));
+    fetchUser();
   }, []);
 
-  function getUser() {
-    return Auth.currentAuthenticatedUser()
-      .then(userData => userData)
-      .catch(() => console.log('Not signed in'));
+  const fetchUser = async () => {
+    const currentUser = await getUser();
+    setUser(currentUser);
+  };
+
+  async function getUser() {
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      return userData;
+    } catch {
+      return console.log('Not signed in');
+    }
   }
 
   return (
@@ -39,11 +48,12 @@ function App() {
       {user ? (
         <button onClick={() => Auth.signOut()}>Sign Out</button>
       ) : (
-        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
+        <button onClick={() => Auth.federatedSignIn()}>
+          Federated Sign In
+        </button>
       )}
     </div>
   );
 }
-
 
 export default App;

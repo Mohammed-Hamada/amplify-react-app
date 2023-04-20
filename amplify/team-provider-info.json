@@ -12,9 +12,6 @@
       "AmplifyAppId": "d3gpiuod6gf6xo"
     },
     "categories": {
-      "api": {
-        "amplifyreactapp": {}
-      },
       "hosting": {
         "amplifyhosting": {
           "appId": "d3gpiuod6gf6xo",
@@ -34,6 +31,9 @@
           "deploymentBucketName": "amplify-amplifyreactapp-dev-120631-deployment",
           "s3Key": "amplify-builds/amplifyreactappb88c9e30CreateAuthChallenge-52535530517367486f4d-build.zip"
         }
+      },
+      "api": {
+        "amplifyreactapp": {}
       }
     }
   }
