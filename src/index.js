@@ -35,7 +35,7 @@ const updatedAwsConfig = {
   },
 };
 
-console.log(updatedAwsConfig)
+console.log(updatedAwsConfig);
 
 Amplify.configure(updatedAwsConfig);
 
