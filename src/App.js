@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { API, Auth, Hub, graphqlOperation, Amplify } from 'aws-amplify';
+import { API, Auth, Hub, graphqlOperation } from 'aws-amplify';
 
 import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
